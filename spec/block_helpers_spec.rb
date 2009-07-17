@@ -1,36 +1,44 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
-module TestHelper
-  extend BlockHelpers
-
-  block_helper :test_helper do
-    def hello
-      'hello'
-    end
-  end
-
-
+# Taken partly from rspec-rails
+# File lib/spec/rails/example/helper_example_group.rb, line 138
+def eval_erb(text)
+  ERB.new(text).result(@helper.get_binding)
 end
 
-describe "BlockHelpers" do
+describe 'block helpers' do
+
+  before(:each) do
+    module TestHelper
+
+      class TestHelperMethod < BlockHelpers::BlockHelper
+        def hello
+          'Hi there'
+        end
+      end
+
+    end
+    class TestClass
+      include TestHelper
+      def get_binding
+        binding
+      end
+    end
+    @helper = TestClass.new
+  end
   
   describe "block_helper" do
     
-    before(:each) do
-      include TestHelper
-    end
-    
     it "should make the named helper available" do
-      TestHelper.instance_methods.include?('test_helper').should be_true
+      @helper.should respond_to(:test_helper_method)
     end
     
     it "should work for a simple yielded object" do
-      extend TestHelper
-      raise eval_erb(%(
-        <% test_helper do |h| %>
+      eval_erb(%(
+        <% test_helper_method do |h| %>
           <%= h.hello %>
         <% end %>
-      ))
+      )).should match_html("Hi there")
     end
   end
   
