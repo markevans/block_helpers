@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
      "README.markdown",
      "Rakefile",
      "VERSION",
+     "block_helpers.gemspec",
      "lib/block_helpers.rb",
      "spec/for_spec_rails/application.rb",
      "spec/helpers/block_helpers_spec.rb",
