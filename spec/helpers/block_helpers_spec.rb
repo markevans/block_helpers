@@ -54,4 +54,24 @@ describe TestHelperModule do
     end
   end
   
+  describe "block helpers with arguments" do
+    before(:each) do
+      class TestHelperModule::TestHelperWithArgs < BlockHelpers::BlockHelper
+        def initialize(id, klass)
+          @id, @klass = id, klass
+        end
+        def hello
+          %(<p class="#{@klass}" id="#{@id}">Hello</p>)
+        end
+      end
+    end
+    it "should use the args passed in" do
+      eval_erb(%(
+        <% test_helper_with_args('hello', 'there') do |r| %>
+          <%= r.hello %>
+        <% end %>
+      )).should match_html(%(<p class="there" id="hello">Hello</p>))
+    end
+  end
+  
 end

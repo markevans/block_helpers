@@ -16,8 +16,8 @@ module BlockHelpers
       #
       method_name = klass.name.split('::').last.underscore
       klass.parent.class_eval %(      
-        def #{method_name}(&block)
-          renderer = #{klass.name}.new
+        def #{method_name}(*args, &block)
+          renderer = #{klass.name}.new(*args)
           if renderer.public_methods(false).include? 'to_s'
             concat renderer.to_s(capture(renderer, &block))
           else
