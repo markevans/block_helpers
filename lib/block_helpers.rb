@@ -19,8 +19,7 @@ module BlockHelpers
         def #{method_name}(&block)
           renderer = #{klass.name}.new
           if renderer.respond_to? :render
-            concat "asdf"
-#            concat renderer.render(capture(renderer, &block))
+            concat renderer.render(capture(renderer, &block))
           else
             block.call(renderer)
           end

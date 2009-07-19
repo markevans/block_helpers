@@ -1,8 +1,12 @@
-require 'spec'
+require File.dirname(__FILE__)+'/../lib/block_helpers'
 
-$LOAD_PATH.unshift(File.dirname(__FILE__))
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
-require 'block_helpers'
+# Hacks to get spec/rails to work
+require 'action_controller'
+$:.unshift File.dirname(__FILE__)+'/for_spec_rails'
+RAILS_ENV = 'test'
+
+require 'spec'
+require 'spec/rails'
 
 Spec::Runner.configure do |config|
 end
