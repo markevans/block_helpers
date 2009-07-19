@@ -126,7 +126,16 @@ This generates:
         </div>
       </div>
     </div>
-    
-== Copyright
+
+
+Installation
+============
+
+To use in Rails, add to your `environment.rb`:
+
+    config.gem "markevans-block_helpers", :lib => "block_helpers", :source => "http://gems.github.com"
+
+Copyright
+========
 
 Copyright (c) 2009 Mark Evans. See LICENSE for details.
