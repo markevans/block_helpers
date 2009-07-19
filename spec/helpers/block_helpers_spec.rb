@@ -30,7 +30,27 @@ describe TestHelperModule do
     end
     
   end
-    
+  
+  describe "access to other methods" do
+    before(:each) do
+      module TestHelperModule
+        def yoghurt; 'Yoghurt'; end
+        class TestHelper
+          def yog
+            yoghurt[0..2]
+          end
+        end
+      end
+    end
+    it "should give the yielded renderer access to other methods" do
+      eval_erb(%(
+        <% test_helper do |r| %>
+          <%= r.yog %>
+        <% end %>
+      )).should match_html("Yog")
+    end
+  end
+  
   describe "surrounding the block" do
 
     before(:each) do

@@ -25,6 +25,9 @@ module BlockHelpers
           end
         end
       )
+      klass.class_eval do
+        include klass.parent
+      end
     end
     
   end
