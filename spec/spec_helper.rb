@@ -1,3 +1,6 @@
+require 'rubygems'
+gem 'activesupport'
+gem 'actionpack'
 require File.dirname(__FILE__)+'/../lib/block_helpers'
 
 # Hacks to get spec/rails to work
