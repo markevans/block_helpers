@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Mark Evans"]
-  s.date = %q{2009-07-19}
+  s.date = %q{2009-07-20}
   s.email = %q{mark@new-bamboo.co.uk}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -42,14 +42,14 @@ Gem::Specification.new do |s|
     s.specification_version = 2
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<active_support>, [">= 2.0"])
-      s.add_runtime_dependency(%q<action_view>, [">= 2.0"])
+      s.add_runtime_dependency(%q<activesupport>, [">= 2.0"])
+      s.add_runtime_dependency(%q<actionpack>, [">= 2.0"])
     else
-      s.add_dependency(%q<active_support>, [">= 2.0"])
-      s.add_dependency(%q<action_view>, [">= 2.0"])
+      s.add_dependency(%q<activesupport>, [">= 2.0"])
+      s.add_dependency(%q<actionpack>, [">= 2.0"])
     end
   else
-    s.add_dependency(%q<active_support>, [">= 2.0"])
-    s.add_dependency(%q<action_view>, [">= 2.0"])
+    s.add_dependency(%q<activesupport>, [">= 2.0"])
+    s.add_dependency(%q<actionpack>, [">= 2.0"])
   end
 end
