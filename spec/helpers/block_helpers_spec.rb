@@ -39,6 +39,9 @@ describe TestHelperModule do
           def yog
             yoghurt[0..2]
           end
+          def jelly_in_div
+            content_tag :div, 'jelly'
+          end
         end
       end
     end
@@ -48,6 +51,13 @@ describe TestHelperModule do
           <%= r.yog %>
         <% end %>
       )).should match_html("Yog")
+    end
+    it "should give the yielded renderer access to normal actionview helper methods" do
+      eval_erb(%(
+        <% test_helper do |r| %>
+          <%= r.jelly_in_div %>
+        <% end %>
+      )).should match_html("<div>jelly</div>")
     end
   end
   

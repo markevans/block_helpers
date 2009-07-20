@@ -26,6 +26,7 @@ module BlockHelpers
         end
       )
       klass.class_eval do
+        include ActionView::Helpers
         include klass.parent
       end
     end
