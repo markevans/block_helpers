@@ -9,8 +9,8 @@ begin
     gem.email = "mark@new-bamboo.co.uk"
     gem.homepage = "http://github.com/markevans/block_helpers"
     gem.authors = ["Mark Evans"]
-    gem.add_dependency('active_support', '>= 2.0')
-    gem.add_dependency('action_view', '>= 2.0')
+    gem.add_dependency('activesupport', '>= 2.0')
+    gem.add_dependency('actionpack', '>= 2.0')
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
 
