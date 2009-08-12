@@ -8,7 +8,7 @@ describe TestHelperModule do
   describe "simple block_helper" do
     
     before(:each) do
-      class TestHelperModule::TestHelper < BlockHelpers::BlockHelper
+      class TestHelperModule::TestHelper < ActionView::BlockHelper
         def hello
           'Hi there'
         end
@@ -64,7 +64,7 @@ describe TestHelperModule do
   describe "surrounding the block" do
 
     before(:each) do
-      class TestHelperModule::TestHelperSurround < BlockHelpers::BlockHelper
+      class TestHelperModule::TestHelperSurround < ActionView::BlockHelper
         def to_s(body)
           %(
             <p>Before</p>
@@ -86,7 +86,7 @@ describe TestHelperModule do
   
   describe "block helpers with arguments" do
     before(:each) do
-      class TestHelperModule::TestHelperWithArgs < BlockHelpers::BlockHelper
+      class TestHelperModule::TestHelperWithArgs < ActionView::BlockHelper
         def initialize(id, klass)
           @id, @klass = id, klass
         end

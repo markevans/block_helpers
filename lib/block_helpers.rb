@@ -1,14 +1,14 @@
 require 'activesupport'
 require 'action_view'
 
-module BlockHelpers
+module ActionView
   
   class BlockHelper
     
     def self.inherited(klass)
       # Define the helper method
       # e.g. for a class:
-      #   class HelloHelper < BlockHelpers::BlockHelper
+      #   class HelloHelper < ActionView::BlockHelper
       #     #.....
       #   end
       #
