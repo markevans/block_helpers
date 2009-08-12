@@ -31,16 +31,16 @@ describe TestHelperModule do
     
   end
   
-  describe "access to other methods" do
+  describe "access to other methods via 'helper'" do
     before(:each) do
       module TestHelperModule
         def yoghurt; 'Yoghurt'; end
         class TestHelper
           def yog
-            yoghurt[0..2]
+            helper.yoghurt[0..2]
           end
           def jelly_in_div
-            content_tag :div, 'jelly'
+            helper.content_tag :div, 'jelly'
           end
         end
       end

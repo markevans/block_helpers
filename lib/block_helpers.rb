@@ -25,9 +25,25 @@ module ActionView
           end
         end
       )
+      
+      # Make a 'helper' object available, for calling
+      # other helper methods / action view helpers
       klass.class_eval do
-        include ActionView::Helpers
-        include klass.parent
+        
+        protected
+        define_method :helper do
+          if @helper.nil?
+            @helper = Object.new
+            # Open the singleton class of @helper, while
+            # keeping 'klass' visible
+            class << @helper; self; end.class_eval do
+              include klass.parent
+              include ActionView::Helpers
+            end
+          end
+          @helper
+        end
+
       end
     end
     
