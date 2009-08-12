@@ -47,6 +47,12 @@ This will generate the following:
     <p>Hi there Marmaduke!</p>
     ...hooray!
 
+
+Accessing other helper methods
+------------------------------
+
+Methods available in the parent helper are available to the block helper class via the protected object `helper` (see use of `content_tag` below).
+
 Using arguments
 ---------------
 
@@ -62,7 +68,7 @@ In the helper:
         end
   
         def hello(name)
-          content_tag @tag_type, "Hi there #{name}!"
+          helper.content_tag @tag_type, "Hi there #{name}!"
         end
   
       end
@@ -78,20 +84,18 @@ In the view:
 This generates:
 
     <span>Hi there Marmaduke!</span>
-    
-Note that methods available in the helper (e.g. `content_tag`) are also available in the block helper class.
 
 Surrounding markup
 ------------------
 
-Use the `to_s` method to surround the block with markup, e.g.
+Use the `render` method to surround the block with markup, e.g.
 In the helper:
 
     module MyHelper
 
       class RoundedBox < ActionView::BlockHelper
 
-        def to_s(body)
+        def render(body)
           %(
             <div class="tl">
               <div class="tr">
@@ -127,6 +131,7 @@ This generates:
       </div>
     </div>
 
+Of course, you could use `render` for more than just surrounding markup.
 
 Installation
 ============

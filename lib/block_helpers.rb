@@ -18,8 +18,8 @@ module ActionView
       klass.parent.class_eval %(      
         def #{method_name}(*args, &block)
           renderer = #{klass.name}.new(*args)
-          if renderer.public_methods(false).include? 'to_s'
-            concat renderer.to_s(capture(renderer, &block))
+          if renderer.public_methods(false).include? 'render'
+            concat renderer.render(capture(renderer, &block))
           else
             block.call(renderer)
           end

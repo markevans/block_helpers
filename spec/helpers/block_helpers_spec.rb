@@ -65,7 +65,7 @@ describe TestHelperModule do
 
     before(:each) do
       class TestHelperModule::TestHelperSurround < ActionView::BlockHelper
-        def to_s(body)
+        def render(body)
           %(
             <p>Before</p>
             #{body}
