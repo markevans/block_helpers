@@ -5,7 +5,7 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "block_helpers"
-    gem.summary = %Q{TODO}
+    gem.summary = %Q{An extension to ActionView for adding block helpers to views}
     gem.email = "mark@new-bamboo.co.uk"
     gem.homepage = "http://github.com/markevans/block_helpers"
     gem.authors = ["Mark Evans"]
