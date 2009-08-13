@@ -31,18 +31,33 @@ describe TestHelperModule do
     
   end
   
-  describe "access to other methods via 'helper'" do
+  describe "access to other methods" do
     before(:each) do
       module TestHelperModule
-        def yoghurt; 'Yoghurt'; end
+        
+        def yoghurt
+          'Yoghurt'
+        end
+        
         class TestHelper
           def yog
-            helper.yoghurt[0..2]
+            yoghurt[0..2]
           end
           def jelly_in_div
-            helper.content_tag :div, 'jelly'
+            content_tag :div, 'jelly'
+          end
+          def cheese
+            helper.cheese[0..3]
+          end
+          def label_tag(text)
+            helper.label_tag(text[0..1])
           end
         end
+        
+        def cheese
+          'Cheese'
+        end
+        
       end
     end
     it "should give the yielded renderer access to other methods" do
@@ -58,6 +73,20 @@ describe TestHelperModule do
           <%= r.jelly_in_div %>
         <% end %>
       )).should match_html("<div>jelly</div>")
+    end
+    it "should give the yielded renderer access to other methods via 'helper'" do
+      eval_erb(%(
+        <% test_helper do |r| %>
+          <%= r.cheese %>
+        <% end %>
+      )).should match_html("Chee")
+    end
+    it "should give the yielded renderer access to normal actionview helper methods via 'helper'" do
+      eval_erb(%(
+        <% test_helper do |r| %>
+          <%= r.label_tag 'hide' %>
+        <% end %>
+      )).should match_html('<label for="hi">Hi</label>')
     end
   end
   

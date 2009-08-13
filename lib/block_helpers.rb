@@ -27,8 +27,12 @@ module ActionView
       )
       
       # Make a 'helper' object available, for calling
-      # other helper methods / action view helpers
+      # other helper methods / action view helpers,
+      # in case of name clashes
       klass.class_eval do
+        
+        include klass.parent
+        include ActionView::Helpers
         
         protected
         define_method :helper do

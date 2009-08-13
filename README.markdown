@@ -51,7 +51,35 @@ This will generate the following:
 Accessing other helper methods
 ------------------------------
 
-Methods available in the parent helper are available to the block helper class via the protected object `helper` (see use of `content_tag` below).
+Methods available in the parent helper are available to the block helper class.
+In case of name clashes, you can also access those methods via the protected object `helper`.
+In the helper:
+
+    module MyHelper
+
+      def angry
+        "I'm very angry"
+      end
+
+      class MyBlockHelper < ActionView::BlockHelper
+  
+        def angry
+          content_tag :div, helper.angry
+        end
+  
+      end
+
+    end
+
+In the view:
+
+    <% my_block_helper do |h| %>
+      <%= h.angry %>
+    <% end %>
+
+This generates:
+
+    <div>I'm very angry</div>
 
 Using arguments
 ---------------
@@ -68,7 +96,7 @@ In the helper:
         end
   
         def hello(name)
-          helper.content_tag @tag_type, "Hi there #{name}!"
+          content_tag @tag_type, "Hi there #{name}!"
         end
   
       end
