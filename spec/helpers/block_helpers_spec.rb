@@ -94,7 +94,7 @@ describe TestHelperModule do
 
     before(:each) do
       class TestHelperModule::TestHelperSurround < ActionView::BlockHelper
-        def render(body)
+        def display(body)
           %(
             <p>Before</p>
             #{body}

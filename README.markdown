@@ -116,14 +116,14 @@ This generates:
 Surrounding markup
 ------------------
 
-Use the `render` method to surround the block with markup, e.g.
+Use the `display` method to surround the block with markup, e.g.
 In the helper:
 
     module MyHelper
 
       class RoundedBox < ActionView::BlockHelper
 
-        def render(body)
+        def display(body)
           %(
             <div class="tl">
               <div class="tr">
@@ -159,7 +159,7 @@ This generates:
       </div>
     </div>
 
-Of course, you could use `render` for more than just surrounding markup.
+Of course, you could use `display` for more than just surrounding markup.
 
 Installation
 ============
