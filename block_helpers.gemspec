@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{block_helpers}
-  s.version = "0.2.3"
+  s.version = "0.2.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Mark Evans"]
@@ -30,7 +30,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.1}
-  s.summary = %q{TODO}
+  s.summary = %q{An extension to ActionView for adding block helpers to views}
   s.test_files = [
     "spec/for_spec_rails/application.rb",
      "spec/helpers/block_helpers_spec.rb",
