@@ -41,7 +41,8 @@ module ActionView
 
     def method_missing(method, *args, &block)
       if helper.respond_to?(method)
-        helper.send(method, *args, &block)
+        self.class_eval "def #{method}(*args, &block); helper.send('#{method}', *args, &block); end"
+        self.send(method, *args, &block)
       else
         super
       end
