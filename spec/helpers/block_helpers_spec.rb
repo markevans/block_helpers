@@ -52,6 +52,10 @@ describe TestHelperModule do
           def label_tag(text)
             helper.label_tag(text[0..1])
           end
+          def check_capture(&block)
+            string = capture(&block)
+            2.times{ concat(string) }
+          end
         end
         
         def cheese
@@ -87,6 +91,15 @@ describe TestHelperModule do
           <%= r.label_tag 'hide' %>
         <% end %>
       )).should match_html('<label for="hi">Hi</label>')
+    end
+    it "should work with methods like 'concat'" do
+      eval_erb(%(
+        <% test_helper do |r| %>
+          <% r.check_capture do %>
+            HELLO
+          <% end %>
+        <% end %>
+      )).should match_html('HELLO HELLO')
     end
   end
   
