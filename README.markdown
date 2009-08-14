@@ -22,7 +22,7 @@ In the helper file:
 
     module MyHelper
     
-      class MyBlockHelper < ActionView::BlockHelper
+      class MyBlockHelper < BlockHelpers::Base
       
         def hello(name)
           "<p>Hi there #{name}!</p>"
@@ -61,7 +61,7 @@ In the helper:
         "I'm very angry"
       end
 
-      class MyBlockHelper < ActionView::BlockHelper
+      class MyBlockHelper < BlockHelpers::Base
   
         def angry
           content_tag :div, helper.angry
@@ -89,7 +89,7 @@ In the helper:
 
     module MyHelper
 
-      class MyBlockHelper < ActionView::BlockHelper
+      class MyBlockHelper < BlockHelpers::Base
   
         def initialize(tag_type)
           @tag_type = tag_type
@@ -121,7 +121,7 @@ In the helper:
 
     module MyHelper
 
-      class RoundedBox < ActionView::BlockHelper
+      class RoundedBox < BlockHelpers::Base
 
         def display(body)
           %(
