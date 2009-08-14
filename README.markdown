@@ -84,14 +84,14 @@ This generates:
 Using arguments
 ---------------
 
-You can pass in arguments to the helper, and these will be passed through to the class's `options` method.
+You can pass in arguments to the helper, and these will be passed through to the class's `initialize` method.
 In the helper:
 
     module MyHelper
 
       class MyBlockHelper < ActionView::BlockHelper
   
-        def options(tag_type)
+        def initialize(tag_type)
           @tag_type = tag_type
         end
   
