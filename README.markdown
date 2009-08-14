@@ -91,7 +91,7 @@ In the helper:
 
       class MyBlockHelper < ActionView::BlockHelper
   
-        def initialize(tag_type)
+        def options(tag_type)
           @tag_type = tag_type
         end
   
