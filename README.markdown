@@ -168,6 +168,12 @@ To use in Rails, add to your `environment.rb`:
 
     config.gem "markevans-block_helpers", :lib => "block_helpers", :source => "http://gems.github.com"
 
+Credits
+=======
+- <a href="http://github.com/markevans">Mark Evans</a> (author)
+- <a href="http://github.com/nesquena">Nathan Esquenazi</a> and <a href="http://github.com/2collegebums">2collegebums</a> (contributor)
+
+
 Copyright
 ========
 
