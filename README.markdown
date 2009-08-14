@@ -84,7 +84,7 @@ This generates:
 Using arguments
 ---------------
 
-You can pass in arguments to the helper, and these will be passed through to the class's `initialize` method.
+You can pass in arguments to the helper, and these will be passed through to the class's `options` method.
 In the helper:
 
     module MyHelper
