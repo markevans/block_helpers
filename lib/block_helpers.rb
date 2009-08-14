@@ -5,13 +5,6 @@ module ActionView
 
   class BlockHelper
 
-    attr_accessor :helper
-
-    def initialize(template, *args)
-      @helper = template
-      self.options(*args) if self.respond_to?(:options)
-    end
-
     def self.inherited(klass)
       # Define the helper method
       # e.g. for a class:
@@ -24,7 +17,8 @@ module ActionView
       method_name = klass.name.split('::').last.underscore
       klass.parent.class_eval %(
         def #{method_name}(*args, &block)
-          renderer = #{klass.name}.new(self, *args)
+          renderer = #{klass.name}.new(*args)
+          renderer.send(:helper=, self)
           if renderer.public_methods(false).include? 'display'
             concat renderer.display(capture(renderer, &block))
           else
@@ -35,9 +29,12 @@ module ActionView
     end
 
     def respond_to?(method)
-      return true if helper.respond_to?(method)
-      super
+      super or helper.respond_to?(method)
     end
+
+    protected
+
+    attr_accessor :helper
 
     def method_missing(method, *args, &block)
       if helper.respond_to?(method)
@@ -47,6 +44,7 @@ module ActionView
         super
       end
     end
+    
   end
 
 end

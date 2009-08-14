@@ -129,7 +129,7 @@ describe TestHelperModule do
   describe "block helpers with arguments" do
     before(:each) do
       class TestHelperModule::TestHelperWithArgs < ActionView::BlockHelper
-        def options(id, klass)
+        def initialize(id, klass)
           @id, @klass = id, klass
         end
         def hello
