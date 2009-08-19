@@ -1,5 +1,4 @@
 require 'activesupport'
-require 'action_view'
 
 module BlockHelpers
 
@@ -20,7 +19,11 @@ module BlockHelpers
           renderer = #{klass.name}.new(*args)
           renderer.send(:helper=, self)
           if renderer.public_methods(false).include? 'display'
-            concat renderer.display(capture(renderer, &block))
+            if method(:concat).arity == 1
+              concat renderer.display(capture(renderer, &block))
+            else
+              concat renderer.display(capture(renderer, &block)), binding
+            end
           else
             block.call(renderer)
           end

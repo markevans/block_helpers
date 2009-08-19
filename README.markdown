@@ -168,6 +168,16 @@ To use in Rails, add to your `environment.rb`:
 
     config.gem "markevans-block_helpers", :lib => "block_helpers", :source => "http://gems.github.com"
 
+for Merb, in `init.rb`:
+
+    dependency "markevans-block_helpers", :require_as => "block_helpers"
+
+Compatibility
+=============
+Currently it depends on activesupport, and requires that the helper already has the methods `concat` and `capture` available (which is the case in Rails and Merb).
+
+It works with both the one and two argument versions of `concat`, so should work with all recent versions of Rails and Merb.
+
 Credits
 =======
 - <a href="http://github.com/markevans">Mark Evans</a> (author)

@@ -8,9 +8,12 @@ describe TestHelperModule do
   describe "simple block_helper" do
     
     before(:each) do
-      class TestHelperModule::TestHelper < BlockHelpers::Base
-        def hello
-          'Hi there'
+      module TestHelperModule
+        remove_const(:TestHelper) if defined?(TestHelper)
+        class TestHelper < BlockHelpers::Base
+          def hello
+            'Hi there'
+          end
         end
       end
     end
@@ -34,12 +37,13 @@ describe TestHelperModule do
   describe "access to other methods" do
     before(:each) do
       module TestHelperModule
-        
+
         def yoghurt
           'Yoghurt'
         end
         
-        class TestHelper
+        remove_const(:TestHelper) if defined?(TestHelper)
+        class TestHelper < BlockHelpers::Base
           def yog
             yoghurt[0..2]
           end
@@ -92,7 +96,7 @@ describe TestHelperModule do
         <% end %>
       )).should match_html('<label for="hi">Hi</label>')
     end
-    it "should work with methods like 'concat'" do
+    it "should work with methods like 'capture'" do
       eval_erb(%(
         <% test_helper do |r| %>
           <% r.check_capture do %>
@@ -103,16 +107,66 @@ describe TestHelperModule do
     end
   end
   
+  describe "accesibility" do
+    def run_erb
+      eval_erb(%(
+        <% compat_helper do |r| %>
+          HELLO
+        <% end %>
+      ))
+    end
+
+    it "should work when concat has one arg" do
+      module TestHelperModule
+        def concat(html); super(html); end
+        remove_const(:CompatHelper) if defined?(CompatHelper)
+        class CompatHelper < BlockHelpers::Base
+          def display(body)
+            "Before...#{body}...after"
+          end
+        end
+      end
+      run_erb.should match_html("Before... HELLO ...after")
+    end
+    it "should work when concat has two args" do
+      module TestHelperModule
+        def concat(html, binding); super(html); end
+        remove_const(:CompatHelper) if defined?(:CompatHelper)
+        class CompatHelper < BlockHelpers::Base
+          def display(body)
+            "Before...#{body}...after"
+          end
+        end
+      end
+      run_erb.should match_html("Before... HELLO ...after")
+    end
+    it "should work when concat has one optional arg" do
+      module TestHelperModule
+        def concat(html, binding=nil); super(html); end
+        remove_const(:CompatHelper) if defined?(:CompatHelper)
+        class CompatHelper < BlockHelpers::Base
+          def display(body)
+            "Before...#{body}...after"
+          end
+        end
+      end
+      run_erb.should match_html("Before... HELLO ...after")
+    end
+  end
+  
   describe "surrounding the block" do
 
     before(:each) do
-      class TestHelperModule::TestHelperSurround < BlockHelpers::Base
-        def display(body)
-          %(
-            <p>Before</p>
-            #{body}
-            <p>After</p>
-          )
+      module TestHelperModule
+        remove_const(:TestHelperSurround) if defined?(TestHelperSurround)
+        class TestHelperSurround < BlockHelpers::Base
+          def display(body)
+            %(
+              <p>Before</p>
+              #{body}
+              <p>After</p>
+            )
+          end
         end
       end
     end
@@ -128,12 +182,15 @@ describe TestHelperModule do
   
   describe "block helpers with arguments" do
     before(:each) do
-      class TestHelperModule::TestHelperWithArgs < BlockHelpers::Base
-        def initialize(id, klass)
-          @id, @klass = id, klass
-        end
-        def hello
-          %(<p class="#{@klass}" id="#{@id}">Hello</p>)
+      module TestHelperModule
+        remove_const(:TestHelperWithArgs) if defined?(TestHelperWithArgs)
+        class TestHelperWithArgs < BlockHelpers::Base
+          def initialize(id, klass)
+            @id, @klass = id, klass
+          end
+          def hello
+            %(<p class="#{@klass}" id="#{@id}">Hello</p>)
+          end
         end
       end
     end
