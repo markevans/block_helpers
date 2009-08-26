@@ -131,7 +131,7 @@ describe TestHelperModule do
     it "should work when concat has two args" do
       module TestHelperModule
         def concat(html, binding); super(html); end
-        remove_const(:CompatHelper) if defined?(:CompatHelper)
+        remove_const(:CompatHelper) if defined?(CompatHelper)
         class CompatHelper < BlockHelpers::Base
           def display(body)
             "Before...#{body}...after"
@@ -143,7 +143,7 @@ describe TestHelperModule do
     it "should work when concat has one optional arg" do
       module TestHelperModule
         def concat(html, binding=nil); super(html); end
-        remove_const(:CompatHelper) if defined?(:CompatHelper)
+        remove_const(:CompatHelper) if defined?(CompatHelper)
         class CompatHelper < BlockHelpers::Base
           def display(body)
             "Before...#{body}...after"
@@ -161,11 +161,15 @@ describe TestHelperModule do
         remove_const(:TestHelperSurround) if defined?(TestHelperSurround)
         class TestHelperSurround < BlockHelpers::Base
           def display(body)
-            %(
-              <p>Before</p>
-              #{body}
-              <p>After</p>
-            )
+            if body.nil?
+              "This is nil!"
+            else
+              %(
+                <p>Before</p>
+                #{body}
+                <p>After</p>
+              )
+            end
           end
         end
       end
@@ -177,6 +181,11 @@ describe TestHelperModule do
           Body here!!!
         <% end %>
       )).should match_html("<p>Before</p> Body here!!! <p>After</p>")
+    end
+    it "should pass in the body as nil if no block given" do
+      eval_erb(%(
+        <% test_helper_surround %>
+      )).should match_html("This is nil!")
     end
   end
   

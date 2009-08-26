@@ -19,10 +19,11 @@ module BlockHelpers
           renderer = #{klass.name}.new(*args)
           renderer.send(:helper=, self)
           if renderer.public_methods(false).include? 'display'
+            body = block ? capture(renderer, &block) : nil
             if method(:concat).arity == 1
-              concat renderer.display(capture(renderer, &block))
+              concat renderer.display(body)
             else
-              concat renderer.display(capture(renderer, &block)), binding
+              concat renderer.display(body), binding
             end
           else
             block.call(renderer)
