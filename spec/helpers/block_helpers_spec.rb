@@ -32,6 +32,19 @@ describe TestHelperModule do
       )).should match_html("<p>Before</p> Hi there <p>After</p>")
     end
     
+    it "should do nothing if no block given" do
+      eval_erb(%(
+        <% test_helper %>
+      )).should match_html("")
+    end
+    
+    it "should return itself (the renderer object)" do
+      eval_erb(%(
+        <% e = test_helper %>
+        <%= e.hello %>
+      )).should match_html('Hi there')
+    end
+    
   end
   
   describe "access to other methods" do

@@ -26,8 +26,9 @@ module BlockHelpers
               concat renderer.display(body), binding
             end
           else
-            block.call(renderer)
+            block.call(renderer) if block
           end
+          renderer
         end
       )
     end
