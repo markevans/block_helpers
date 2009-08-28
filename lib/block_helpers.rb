@@ -20,10 +20,10 @@ module BlockHelpers
           renderer.send(:helper=, self)
           if renderer.public_methods(false).include? 'display'
             body = block ? capture(renderer, &block) : nil
-            if method(:concat).arity == 1
-              concat renderer.display(body)
-            else
+            if method(:concat).arity == 2
               concat renderer.display(body), binding
+            else
+              concat renderer.display(body)
             end
           else
             block.call(renderer) if block
