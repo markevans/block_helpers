@@ -166,11 +166,11 @@ Installation
 
 To use in Rails, add to your `environment.rb`:
 
-    config.gem "markevans-block_helpers", :lib => "block_helpers", :source => "http://gems.github.com"
+    config.gem "block_helpers", :lib => "block_helpers", :source => "http://gemcutter.org"
 
 for Merb, in `init.rb`:
 
-    dependency "markevans-block_helpers", :require_as => "block_helpers"
+    dependency "block_helpers"
 
 Compatibility
 =============
