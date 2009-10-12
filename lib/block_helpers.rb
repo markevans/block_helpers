@@ -18,21 +18,24 @@ module BlockHelpers
         def #{method_name}(*args, &block)
           renderer = #{klass.name}.new(*args)
           renderer.send(:helper=, self)
-          if renderer.public_methods(false).include? 'display'
-            body = block ? capture(renderer, &block) : nil
+          body = block ? capture(renderer, &block) : nil
+          processed_body = renderer.display(body)
+          if processed_body
             if method(:concat).arity == 2
-              concat renderer.display(body), binding
+              concat processed_body, binding
             else
-              concat renderer.display(body)
+              concat processed_body
             end
-          else
-            block.call(renderer) if block
           end
           renderer
         end
       )
     end
 
+    def display(body)
+      body
+    end
+    
     def respond_to?(method)
       super or helper.respond_to?(method)
     end

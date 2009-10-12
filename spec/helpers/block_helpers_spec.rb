@@ -120,7 +120,7 @@ describe TestHelperModule do
     end
   end
   
-  describe "accesibility" do
+  describe "accessibility" do
     def run_erb
       eval_erb(%(
         <% compat_helper do |r| %>
@@ -223,6 +223,45 @@ describe TestHelperModule do
         <% end %>
       )).should match_html(%(<p class="there" id="hello">Hello</p>))
     end
+  end
+  
+  describe "inheritance" do
+    
+    before(:each) do
+      module TestHelperModule
+        remove_const(:ParentTestHelper) if defined?(ParentTestHelper)
+        remove_const(:ChildTestHelper) if defined?(ChildTestHelper)
+        class ParentTestHelper < BlockHelpers::Base
+          def hello
+            "hello"
+          end
+        end
+        class ChildTestHelper < ParentTestHelper
+        end
+      end
+    end
+    
+    it "should inherit normal methods" do
+      eval_erb(%(
+        <% child_test_helper do |r| %>
+          <%= r.hello %>
+        <% end %>
+      )).should match_html("hello")
+    end
+    
+    it "should inherit the 'display' method" do
+      TestHelperModule::ParentTestHelper.class_eval do
+        def display(body)
+          "before...#{body}...after"
+        end
+      end
+      eval_erb(%(
+        <% child_test_helper do %>
+          hello
+        <% end %>
+      )).should match_html("before... hello ...after")
+    end
+    
   end
   
 end
