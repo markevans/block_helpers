@@ -17,11 +17,16 @@ module BlockHelpers
       klass.parent.class_eval %(
         def #{method_name}(*args, &block)
           renderer = #{klass.name}.new(*args)
-          renderer.send(:helper=, self)
+          top_level_helper = if self.is_a?(BlockHelpers::Base) 
+            self.helper
+          else
+            self
+          end
+          renderer.send(:helper=, top_level_helper)
           body = block ? capture(renderer, &block) : nil
           processed_body = renderer.display(body)
           if processed_body
-            if method(:concat).arity == 2
+            if top_level_helper.method(:concat).arity == 2
               concat processed_body, binding
             else
               concat processed_body

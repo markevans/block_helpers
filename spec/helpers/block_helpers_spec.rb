@@ -281,4 +281,37 @@ describe TestHelperModule do
     end
   end
   
+  describe "nested block helpers" do
+    it "should define a nested block helper method" do
+      module TestHelperModule
+        class OuterHelper < BlockHelpers::Base
+          
+          def egg
+            'bad egg'
+          end
+          
+          def display(body)
+            "Outer #{body}"
+          end
+          
+          class InnerHelper < BlockHelpers::Base
+            def egg
+              'EGG'
+            end
+            def display(body)
+              "Inner #{body}"
+            end
+          end
+        end
+      end
+      eval_erb(%(
+        <% outer_helper do |o| %>
+          <% o.inner_helper do |i| %>
+            <%= i.egg %>
+          <% end %>
+        <% end %>
+      )).should match_html("Outer Inner EGG")
+    end
+  end
+  
 end
