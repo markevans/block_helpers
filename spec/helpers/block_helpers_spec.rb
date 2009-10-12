@@ -264,4 +264,21 @@ describe TestHelperModule do
     
   end
   
+  describe "when display returns 'nil'" do
+    it "should output nothing" do
+      module TestHelperModule
+        remove_const(:NilHelper) if defined?(NilHelper)
+        class NilHelper < BlockHelpers::Base
+          def display(body)
+          end
+        end
+      end
+      eval_erb(%(
+        <% nil_helper do %>
+          hello
+        <% end %>
+      )).should match_html("")
+    end
+  end
+  
 end
