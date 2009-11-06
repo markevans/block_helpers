@@ -11,6 +11,18 @@ Rails already has a great solution for forms with form-builders, using helpers w
 
 This small gem generates helpers similar to the form-builders, but for the general case.
 
+Installation
+============
+
+To use in Rails, add to your `environment.rb`:
+
+    config.gem "block_helpers", :source => "http://gemcutter.org"
+
+for Merb, in `init.rb`:
+
+    dependency "block_helpers"
+
+
 Example usage
 =============
 Please note that these examples are very contrived just for brevity! These block helpers are much more useful than just printing 'Hi there Marmaduke!'
@@ -161,16 +173,25 @@ This generates:
 
 Of course, you could use `display` for more than just surrounding markup.
 
-Installation
-============
+Testing
+=======
+I'm not too sure about other testing frameworks, but with rspec-rails you can use 'eval_erb', e.g.
 
-To use in Rails, add to your `environment.rb`:
+    eval_erb(%(
+      <% my_block_helper do |h| %>
+        <h2>Hello</h2>
+        <%= h.write_blah %>
+      <% end %>
+    )).should match_html("<h2>Hello</h2> blah blah blah ")
 
-    config.gem "block_helpers", :lib => "block_helpers", :source => "http://gemcutter.org"
+In the above I've used the following simple matcher `match_html`:
 
-for Merb, in `init.rb`:
+    def match_html(html)
+      # Match two strings, but don't care about whitespace
+      simple_matcher("should match #{html}"){|given| given.strip.gsub(/\s+/,' ').gsub('> <','><') == html.strip.gsub(/\s+/,' ').gsub('> <','><') }
+    end
 
-    dependency "block_helpers"
+Obviously you test however you want but I've included the above in case it's useful.
 
 Compatibility
 =============
