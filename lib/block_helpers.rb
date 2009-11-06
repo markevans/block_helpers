@@ -20,19 +20,23 @@ module BlockHelpers
           def #{method_name}(*args, &block)
             
             # Get the current helper object which has all the normal helper methods
-            top_level_helper = if self.is_a?(BlockHelpers::Base) 
-              self.helper
+            if self.is_a?(BlockHelpers::Base) 
+              top_level_helper = self.helper
+              parent_block_helper = self
             else
-              self
+              top_level_helper = self
+              parent_block_helper = nil
             end
             
-            # We need to save the current helper in the class so that
+            # We need to save the current helper and parent block helper in the class so that
             # it's visible to the renderer's 'initialize' method...
             #{klass.name}.current_helper = top_level_helper
+            #{klass.name}.current_parent_block_helper = parent_block_helper
             renderer = #{klass.name}.new(*args)
-            # ...then set it anyway on the renderer so that renderer methods can use it
+            # ...then set them anyway on the renderer so that renderer methods can use it
             renderer.send(:helper=, top_level_helper)
-            
+            renderer.send(:parent=, parent_block_helper)
+
             body = block ? capture(renderer, &block) : nil
             processed_body = renderer.display(body)
             if processed_body
@@ -51,7 +55,7 @@ module BlockHelpers
         )
       end
       
-      attr_accessor :current_helper
+      attr_accessor :current_helper, :current_parent_block_helper
     
     end
 
@@ -65,7 +69,12 @@ module BlockHelpers
 
     protected
 
-    attr_writer :helper
+    attr_writer :helper, :parent
+
+    # For nested block helpers
+    def parent
+      @parent ||= self.class .current_parent_block_helper
+    end
     
     def helper
       @helper ||= self.class.current_helper

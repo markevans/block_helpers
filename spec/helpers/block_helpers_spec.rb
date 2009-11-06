@@ -302,7 +302,7 @@ describe TestHelperModule do
         class OuterHelper < BlockHelpers::Base
           
           def egg
-            'bad egg'
+            'bad egg ' + parent.inspect
           end
           
           def display(body)
@@ -310,8 +310,13 @@ describe TestHelperModule do
           end
           
           class InnerHelper < BlockHelpers::Base
+            
+            def initialize
+              @egg = parent.egg
+            end
+            
             def egg
-              'EGG'
+              @egg + ' ' + parent.egg.upcase
             end
             def display(body)
               "Inner #{body}"
@@ -325,7 +330,7 @@ describe TestHelperModule do
             <%= i.egg %>
           <% end %>
         <% end %>
-      )).should match_html("Outer Inner EGG")
+      )).should match_html("Outer Inner bad egg nil BAD EGG NIL")
     end
   end
   

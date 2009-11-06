@@ -173,6 +173,39 @@ This generates:
 
 Of course, you could use `display` for more than just surrounding markup.
 
+Nesting
+=======
+You can even nest block helpers:
+
+    module MyHelper
+
+      class Nav < BlockHelpers::Base
+
+        #...code....
+
+        class SubNav < BlockHelpers::Base
+
+          #...code...
+
+        end
+
+      end
+
+    end
+
+In the view:
+
+    <% nav do |h| %>
+      ...
+      <% h.sub_nav do %>
+        ...
+      <% end %>
+      ...
+    <% end %>
+    
+However... I'd be careful not to abuse this, as the code could end up more confusing than it needs be.
+Nested block helpers can access the parent block helper by using the `parent` method.
+
 Testing
 =======
 I'm not too sure about other testing frameworks, but with rspec-rails you can use 'eval_erb', e.g.
