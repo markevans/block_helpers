@@ -95,6 +95,21 @@ describe TestHelperModule do
         <% end %>
       )).should match_html("<div>jelly</div>")
     end
+    it "should give the yielded renderer access to normal actionview helper methods even in initialize" do
+      module TestHelperModule
+        class JokeHelper < BlockHelpers::Base
+          def initialize
+            @joke = truncate("What's the different between half a duck?", :length => 6)
+          end
+          attr_reader :joke
+        end
+      end
+      eval_erb(%(
+        <% joke_helper do |r| %>
+          <%= r.joke %>
+        <% end %>
+      )).should match_html("Wha...")
+    end
     it "should give the yielded renderer access to other methods via 'helper'" do
       eval_erb(%(
         <% test_helper do |r| %>
