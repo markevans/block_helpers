@@ -1,5 +1,3 @@
-require 'activesupport'
-
 module BlockHelpers
 
   class Base
