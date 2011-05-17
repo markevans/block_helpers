@@ -22,6 +22,12 @@ for Merb, in `init.rb`:
 
     dependency "block_helpers"
 
+If using Rails 3.x, add to your Gemfile
+
+    gem "block_helpers"
+
+and run 'bundle install'.
+
 
 Example usage
 =============
@@ -225,6 +231,13 @@ In the above I've used the following simple matcher `match_html`:
     end
 
 Obviously you test however you want but I've included the above in case it's useful.
+
+Using with Rails 3
+==================
+
+Rails 3 uses a littlebit different helper block syntax than Rails 2.  (See the <a href="http://railscasts.com/episodes/208-erb-blocks-in-rails-3">screencast</a> from Ryan Bates for more details.)  In short: blocks need to be marked with <%= %> instead of <% %>.
+
+Block_helpers will work as per the new syntax if run on Rails 3.  If you want it to fall back to the Rails 2 syntax (in Rails 3) redefine the rails2_compatibility_mode? method to return true (either at custom class level or at application level in an initializer).
 
 Compatibility
 =============
