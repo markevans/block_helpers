@@ -39,16 +39,12 @@ module BlockHelpers
             processed_body = renderer.display(body)
             if processed_body
 
-              # If riding on Rails 2.x use old concat syntax
-              if ::Rails::VERSION::MAJOR <= 2
+              if ::Rails::VERSION::MAJOR >= 3
+                return processed_body
+              elsif top_level_helper.method(:concat).arity == 2
                 concat processed_body, binding
-              # ...otherwise call with one arg or use Rails3 block helper style (requires <%= %> at block invocation)
               else
-                if renderer.rails2_compatibility_mode? 
-                  concat(processed_body)
-                else
-                  return processed_body
-                end
+                concat processed_body
               end
               
             end
@@ -67,12 +63,6 @@ module BlockHelpers
     
     def respond_to?(method)
       super or helper.respond_to?(method)
-    end
-
-    # redefine this method either at Rails initialization or at each custom block class
-    # to fall back to Rails 2.x helper sytnax (<% %>; without the '=' sign)
-    def rails2_compatibility_mode?
-      false
     end
 
     protected
