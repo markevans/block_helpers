@@ -39,10 +39,10 @@ module BlockHelpers
             processed_body = renderer.display(body)
             if processed_body
 
-              # If concat is the old rails/merb version with 2 args...
-              if top_level_helper.method(:concat).arity == 2
+              if ::Rails::VERSION::MAJOR >= 3
+                return processed_body
+              elsif top_level_helper.method(:concat).arity == 2
                 concat processed_body, binding
-              # ...otherwise call with one arg
               else
                 concat processed_body
               end
@@ -71,7 +71,7 @@ module BlockHelpers
 
     # For nested block helpers
     def parent
-      @parent ||= self.class .current_parent_block_helper
+      @parent ||= self.class.current_parent_block_helper
     end
     
     def helper
@@ -84,6 +84,20 @@ module BlockHelpers
         self.send(method, *args, &block)
       else
         super
+      end
+    end
+    
+    def capture(*args)
+      # ActiveSupport 3.1 breaks capture method (defines it on all objects)
+      # so we have to resort to rewrite it
+      if Rails.version < "3.1"
+         ActionView::Helpers::CaptureHelper.capture(renderer, &block)
+      else
+        value = nil
+        buffer = with_output_buffer { value = yield(*args) }
+        if string = buffer.presence || value and string.is_a?(String)
+          ERB::Util.html_escape string
+        end
       end
     end
     

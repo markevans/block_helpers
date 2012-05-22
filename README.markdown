@@ -22,6 +22,12 @@ for Merb, in `init.rb`:
 
     dependency "block_helpers"
 
+If using Rails 3.x, add to your Gemfile
+
+    gem "block_helpers"
+
+and run 'bundle install'.
+
 
 Example usage
 =============
@@ -226,9 +232,16 @@ In the above I've used the following simple matcher `match_html`:
 
 Obviously you test however you want but I've included the above in case it's useful.
 
+Using with Rails 3
+==================
+
+Rails 3 uses a littlebit different helper block syntax than Rails 2.  (See the <a href="http://railscasts.com/episodes/208-erb-blocks-in-rails-3">screencast</a> from Ryan Bates for more details.)  In short: blocks need to be marked with <%= %> instead of <% %>.
+
+Block_helpers will work as per the new syntax if run on Rails 3.  If you want it to fall back to the Rails 2 syntax (in Rails 3) redefine the rails2_compatibility_mode? method to return true (either at custom class level or at application level in an initializer).
+
 Compatibility
 =============
-Currently it depends on activesupport, and requires that the helper already has the methods `concat` and `capture` available (which is the case in Rails and Merb).
+Currently it depends on activesupport, and requires that the helper already has the methods `concat` and `capture` available (which is the case in Rails and Merb).  Please, note, that ActiveSupport 3.1+ breaks the `capture` method (see <a href='https://github.com/capistrano/capistrano/issues/168#issuecomment-4162727'>this comment</a> and <a href='https://github.com/rails/rails/commit/d4fa120671e989eecb71c14647dd2051d28de4a5#activesupport/lib/active_support/core_ext/kernel/reporting.rb'>this commit</a>).  Thus `capture` got replicated in the gem.
 
 It works with both the one and two argument versions of `concat`, so should work with all recent versions of Rails and Merb.
 
