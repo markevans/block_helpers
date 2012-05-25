@@ -71,7 +71,7 @@ module BlockHelpers
 
     # For nested block helpers
     def parent
-      @parent ||= self.class .current_parent_block_helper
+      @parent ||= self.class.current_parent_block_helper
     end
     
     def helper
